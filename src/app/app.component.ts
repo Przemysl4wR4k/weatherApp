@@ -45,17 +45,17 @@ export class AppComponent implements  OnDestroy {
     console.log(this.selectedCities)
   }
 
-  getData(): Observable<any> {
+  getData(): Observable<WeatherData[]> {
     return forkJoin(this.selectedCities.map(city => this.getWeatherByCity(city)))
   }
 
-  getWeatherByCity(city: string): Observable<any> {
+  getWeatherByCity(city: string): Observable<WeatherData> {
     const params = {
       q: city,
       appid: API_KEY,
-      units: 'metric', 
+      units: 'metric',
     }
-    return this.httpClient.get(API_URL, { params }).pipe(tap((response: any) => console.log(response.name)))
+    return this.httpClient.get<WeatherData>(API_URL, { params }).pipe(tap((response: WeatherData) => console.log(response)))
   }
 
   ngOnDestroy(): void {
@@ -64,4 +64,11 @@ export class AppComponent implements  OnDestroy {
   }
 
   title = 'weather-app'
+}
+
+interface WeatherData {
+  name: string,
+  main: {
+    temp: number
+  }
 }
