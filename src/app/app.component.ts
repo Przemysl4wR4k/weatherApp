@@ -5,7 +5,7 @@ import { Observable, Subject, forkJoin, interval, throwError } from 'rxjs';
 import { catchError, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 
-const API_KEY = 'baeb4b74ccba157a14abf14eadaf3eb3' //normally this should've been stored in some other file, one that will not be pushed to git repo
+const API_KEY = 'baeb4b74ccba157a14abf14eadaf3eb3'
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather'
 const CITIES = ['Lodz', 'Warsaw', 'Berlin', 'New York', 'London']
 
