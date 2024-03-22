@@ -1,1 +1,4 @@
 <button (click)="startFetching()">Start</button>
+@for (city of citiesData; track city.name) {
+    <app-city-weather [cityName]="city.name"></app-city-weather>
+}
