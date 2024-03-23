@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Observable, Subject, forkJoin, interval, throwError } from 'rxjs';
 import { catchError, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CityWeatherComponent } from './city-weather/city-weather.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 const API_KEY = 'baeb4b74ccba157a14abf14eadaf3eb3'
@@ -14,7 +15,7 @@ const CITIES = ['Lodz', 'Warsaw', 'Berlin', 'New York', 'London']
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, CityWeatherComponent],
+  imports: [CommonModule, RouterOutlet, CityWeatherComponent, LoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -23,11 +24,13 @@ export class AppComponent implements  OnDestroy {
   selectedCities: string[] = []
   destroy$ = new Subject<void>()
   citiesData: WeatherData[] = []
+  started: boolean = false
 
   constructor (private httpClient: HttpClient) {
   }
 
   startFetching(): void {
+    this.started = true
     interval(60000).pipe(
       startWith(0),
       tap(() => this.selectCities()),
@@ -74,4 +77,7 @@ interface WeatherData {
   main: {
     temp: number
   }
+  weather: [{
+    icon: string
+  }]
 }

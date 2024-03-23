@@ -1,4 +1,16 @@
-<button (click)="startFetching()">Start</button>
-@for (city of citiesData; track city.name) {
-    <app-city-weather [cityName]="city.name"></app-city-weather>
-}
+<div id="app-container">
+    <button class="button gradient-bg-border" (click)="startFetching()">Start getting weather</button>
+    <div id="weather-row">
+        @for (city of citiesData; track city.name) {
+            <app-city-weather
+                [cityName]="city.name"
+                [weatherIcon]="city.weather[0].icon"
+                [temperature]="city.main.temp">
+            </app-city-weather>
+        } @empty {
+            @if (started) {
+                <app-loader/>
+            }
+        }
+    </div>
+</div>
