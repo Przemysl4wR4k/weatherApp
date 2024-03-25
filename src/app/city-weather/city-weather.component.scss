@@ -3,4 +3,12 @@
     flex-direction: column;
     padding: 2.5rem;
     height: 8rem;
+    img {
+        height: 6.5rem;
+        width: 6.5rem;
+        align-self: center;
+    }
+    span {
+        text-align: center;
+    }
 }
