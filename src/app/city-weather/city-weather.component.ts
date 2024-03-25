@@ -10,4 +10,9 @@ import { WeatherData } from '../app.service';
 })
 export class CityWeatherComponent {
   @Input() data!: WeatherData
+
+  redirectToOpenWeatherMap(): void {
+    const url = `https://openweathermap.org/city/${this.data.id}`;
+    window.open(url, '_blank');
+  }
 }

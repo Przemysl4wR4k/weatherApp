@@ -33,6 +33,7 @@ export class AppService {
 }
 
 export interface WeatherData {
+    id: number
     name: string,
     main: {
       temp: number

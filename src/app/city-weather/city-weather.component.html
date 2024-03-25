@@ -1,4 +1,4 @@
-<div class="weather-details gradient-bg-border">
+<div class="weather-details gradient-bg-border" (click)="redirectToOpenWeatherMap()">
     <img [src]="'https://openweathermap.org/img/wn/'+data.weather[0].icon+'@2x.png'">
     <span>{{data.name}} {{data.main.temp}}&deg;C,<br>{{data.weather[0].description}}</span>
 </div>
