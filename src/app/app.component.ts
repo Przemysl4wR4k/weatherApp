@@ -2,20 +2,17 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable, Subject, forkJoin, interval, throwError } from 'rxjs';
+import { Subject, interval, throwError } from 'rxjs';
 import { catchError, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CityWeatherComponent } from './city-weather/city-weather.component';
 import { LoaderComponent } from './loader/loader.component';
-
-
-const API_KEY = 'baeb4b74ccba157a14abf14eadaf3eb3'
-const API_URL = 'https://api.openweathermap.org/data/2.5/weather'
-const CITIES = ['Lodz', 'Warsaw', 'Berlin', 'New York', 'London']
+import { AppService, WeatherData } from './app.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, CityWeatherComponent, LoaderComponent],
+  providers: [AppService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -26,42 +23,26 @@ export class AppComponent implements  OnDestroy {
   citiesData: WeatherData[] = []
   started: boolean = false
 
-  constructor (private httpClient: HttpClient) {
+  constructor (private appService: AppService) {
   }
 
   startFetching(): void {
     this.started = true
+
     interval(60000).pipe(
       startWith(0),
-      tap(() => this.selectCities()),
+      tap(() => this.selectedCities = this.appService.selectCities()),
       catchError((error: HttpErrorResponse) => throwError(() => error)),
       takeUntil(this.destroy$)
     ).subscribe()
 
     interval(10000).pipe(
-      switchMap(() => this.getData()),
+      startWith(0),
+      switchMap(() => this.appService.getWeatherData(this.selectedCities)),
       tap((citiesData: WeatherData[]) => this.citiesData = citiesData),
       catchError((error: HttpErrorResponse) => throwError(() => error)),
       takeUntil(this.destroy$)
     ).subscribe()
-  }
-  
-  selectCities(): void {
-    this.selectedCities = CITIES.sort(() => Math.random() - 0.5).slice(0,3)
-    console.log(this.selectedCities)
-  }
-
-  getData(): Observable<WeatherData[]> {
-    return forkJoin(this.selectedCities.map(city => this.getWeatherByCity(city)))
-  }
-
-  getWeatherByCity(city: string): Observable<WeatherData> {
-    const params = {
-      q: city,
-      appid: API_KEY,
-      units: 'metric',
-    }
-    return this.httpClient.get<WeatherData>(API_URL, { params }).pipe(tap((response: WeatherData) => console.log(response)))
   }
 
   ngOnDestroy(): void {
@@ -70,14 +51,4 @@ export class AppComponent implements  OnDestroy {
   }
 
   title = 'weather-app'
-}
-
-interface WeatherData {
-  name: string,
-  main: {
-    temp: number
-  }
-  weather: [{
-    icon: string
-  }]
 }
