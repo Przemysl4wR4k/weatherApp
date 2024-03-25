@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { WeatherData } from '../app.service';
 
 @Component({
   selector: 'app-city-weather',
@@ -8,7 +9,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './city-weather.component.scss'
 })
 export class CityWeatherComponent {
-  @Input() cityName!: string
-  @Input() weatherIcon!: string
-  @Input() temperature!: number
+  @Input() data!: WeatherData
 }

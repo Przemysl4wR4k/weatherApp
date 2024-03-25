@@ -9,9 +9,7 @@
     <div id="weather-row">
         @for (city of citiesData; track city.name) {
             <app-city-weather
-                [cityName]="city.name"
-                [weatherIcon]="city.weather[0].icon"
-                [temperature]="city.main.temp">
+                [data]="city">
             </app-city-weather>
         } @empty {
             @if (started) {

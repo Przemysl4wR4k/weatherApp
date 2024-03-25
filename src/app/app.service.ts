@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, forkJoin } from "rxjs";
+import { Observable, forkJoin, tap } from "rxjs";
 
 const API_KEY = 'baeb4b74ccba157a14abf14eadaf3eb3'
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather'
@@ -39,5 +39,6 @@ export interface WeatherData {
     }
     weather: [{
       icon: string
+      description: string
     }]
 }

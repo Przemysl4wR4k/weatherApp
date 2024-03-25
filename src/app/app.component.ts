@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subject, interval, throwError } from 'rxjs';
@@ -16,7 +16,7 @@ import { AppService, WeatherData } from './app.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements  OnDestroy {
+export class AppComponent implements OnDestroy {
 
   selectedCities: string[] = []
   destroy$ = new Subject<void>()
