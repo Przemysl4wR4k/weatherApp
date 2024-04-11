@@ -12,7 +12,6 @@ Every minute, 3 new cities from the specified 5 should be randomly selected
 The page must have its own styling without using CSS libraries
 The code should be uploaded to a repository using git (optionally hg)
 
-I was not sure whether using one interval would be better, so I decided to stick to two intervals solution.
 The styles are not bad, of course they could have been better. Some smooth transitions or other animations could've been added. If you require some more complicated styles, please let me know :)
 
 # WeatherApp
