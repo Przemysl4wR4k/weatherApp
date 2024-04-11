@@ -32,7 +32,6 @@ export class AppComponent implements OnDestroy {
     interval(60000).pipe(
       startWith(0),
       tap(() => this.selectedCities = this.appService.selectCities()),
-      catchError((error: HttpErrorResponse) => throwError(() => error)),
       takeUntil(this.destroy$)
     ).subscribe()
 
@@ -40,7 +39,6 @@ export class AppComponent implements OnDestroy {
       startWith(0),
       switchMap(() => this.appService.getWeatherData(this.selectedCities)),
       tap((citiesData: WeatherData[]) => this.citiesData = citiesData),
-      catchError((error: HttpErrorResponse) => throwError(() => error)),
       takeUntil(this.destroy$)
     ).subscribe()
   }
