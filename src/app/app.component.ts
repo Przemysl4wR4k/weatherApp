@@ -29,7 +29,7 @@ export class AppComponent implements OnDestroy {
   startFetching(): void {
     this.started = true
 
-    interval(1000).pipe(
+    interval(10000).pipe(
       startWith(-1),
       tap((time) => {if(!((time + 1) % 6)) this.selectedCities = this.appService.selectCities()}),
       switchMap(() => this.appService.getWeatherData(this.selectedCities)),
